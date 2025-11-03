@@ -40,7 +40,9 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
 
     "rest_framework",       # Django REST Framework
+    "rest_framework_simplejwt",  # JWT Authentication
     "drf_spectacular",      # OpenAPI/Swagger generation
+    "django_filters",       # Filtering support
 
     "core",
     "devices",
@@ -143,8 +145,16 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 # Django REST Framework & OpenAPI/Swagger (drf-spectacular)
 # We enable OpenAPI schema generation and serve Swagger UI via URLs.
 REST_FRAMEWORK = {
+    "DEFAULT_AUTHENTICATION_CLASSES": ("rest_framework_simplejwt.authentication.JWTAuthentication",),
+    "DEFAULT_PERMISSION_CLASSES": ("rest_framework.permissions.IsAuthenticated",),
+    "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.PageNumberPagination",
+    "PAGE_SIZE": 20,
+    "DEFAULT_FILTER_BACKENDS": [
+        "django_filters.rest_framework.DjangoFilterBackend",
+        "rest_framework.filters.SearchFilter",
+        "rest_framework.filters.OrderingFilter",
+    ],
     "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
-    # Authentication classes (e.g., JWT) will be added in a later step.
 }
 
 SPECTACULAR_SETTINGS = {
