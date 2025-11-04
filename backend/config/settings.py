@@ -39,10 +39,12 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
 
-    "rest_framework",       # Django REST Framework
-    "rest_framework_simplejwt",  # JWT Authentication
-    "drf_spectacular",      # OpenAPI/Swagger generation
-    "django_filters",       # Filtering support
+    "rest_framework",       
+    "rest_framework_simplejwt",  
+    "drf_spectacular",      
+    "django_filters",       
+    "channels",             
+    "corsheaders",          
 
     "core",
     "devices",
@@ -50,6 +52,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
+    "corsheaders.middleware.CorsMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
@@ -162,3 +165,17 @@ SPECTACULAR_SETTINGS = {
     "DESCRIPTION": "API for devices, measurements and alerts",
     "VERSION": "0.1.0",
 }
+
+# Channels (Redis) configuration
+REDIS_HOST = os.getenv("REDIS_HOST", "redis")
+REDIS_PORT = int(os.getenv("REDIS_PORT", "6379"))
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "channels_redis.core.RedisChannelLayer",
+        "CONFIG": {"hosts": [(REDIS_HOST, REDIS_PORT)]},
+    }
+}
+
+# CORS configuration
+CORS_ALLOW_ALL_ORIGINS = DEBUG
+CORS_ALLOWED_ORIGINS = os.getenv("CORS_ALLOWED_ORIGINS", "").split(",") if not DEBUG else []

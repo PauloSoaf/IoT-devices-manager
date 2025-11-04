@@ -30,8 +30,8 @@ def test_api():
     print("🚀 Testando API IoT Devices Manager")
     print("=" * 60)
     
-    # 1. Criar usuário de teste (via Django admin ou comando)
-    print("\n📝 Primeiro, vamos criar um usuário de teste...")
+    # 1. Create test user (via Django admin or command)
+    print("\n📝 First, create a test user...")
     print("Execute: docker-compose exec backend python manage.py create_test_data")
     
     # 2. Fazer login para obter token JWT
@@ -45,7 +45,7 @@ def test_api():
     print_response(response, "Login JWT")
     
     if response.status_code != 200:
-        print("❌ Erro no login. Certifique-se de que o usuário de teste foi criado.")
+        print("❌ Login error. Make sure the test user was created.")
         return
     
     # Obter token de acesso
@@ -63,10 +63,10 @@ def test_api():
     response = requests.get(f"{BASE_URL}/categories/", headers=auth_headers)
     print_response(response, "GET /categories/")
     
-    # Criar nova categoria
+    # Create new category
     category_data = {
         "name": "Test Category",
-        "description": "Categoria criada via API para teste"
+        "description": "Category created via API for testing"
     }
     response = requests.post(f"{BASE_URL}/categories/", json=category_data, headers=auth_headers)
     print_response(response, "POST /categories/")
@@ -152,7 +152,7 @@ def test_api():
     alert_data = {
         "device": 1,  # Assumindo que existe dispositivo com ID 1
         "type": "warning",
-        "message": "Alerta de teste criado via API"
+        "message": "Test alert created via API"
     }
     response = requests.post(f"{BASE_URL}/alerts/", json=alert_data, headers=auth_headers)
     print_response(response, "POST /alerts/")
@@ -208,8 +208,8 @@ if __name__ == "__main__":
     try:
         test_api()
     except requests.exceptions.ConnectionError:
-        print("❌ Erro: Não foi possível conectar à API.")
+        print("❌ Error: Could not connect to the API.")
         print("Certifique-se de que o servidor está rodando em http://localhost:8000")
         print("Execute: docker-compose up --build")
     except Exception as e:
-        print(f"❌ Erro inesperado: {e}")
+        print(f"❌ Unexpected error: {e}")

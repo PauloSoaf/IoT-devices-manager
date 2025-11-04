@@ -1,6 +1,6 @@
 from rest_framework import status
 from rest_framework.decorators import api_view, permission_classes
-from rest_framework.permissions import AllowAny
+from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 from drf_spectacular.utils import extend_schema
 
@@ -9,8 +9,8 @@ from .serializers import HealthSerializer, RegisterSerializer
 
 @extend_schema(
     operation_id="health",
-    summary="Healthcheck da API",
-    description="Retorna o status do serviço.",
+    summary="API Healthcheck",
+    description="Returns service status.",
     responses=HealthSerializer,
     tags=["health"],
 )
@@ -22,8 +22,8 @@ def health(request):
 
 @extend_schema(
     operation_id="register",
-    summary="Registro de usuário",
-    description="Cria um novo usuário no sistema.",
+    summary="User registration",
+    description="Creates a new user.",
     request=RegisterSerializer,
     responses={201: RegisterSerializer},
     tags=["auth"],
@@ -35,3 +35,16 @@ def register(request):
     s.is_valid(raise_exception=True)
     user = s.save()
     return Response(RegisterSerializer(user).data, status=status.HTTP_201_CREATED)
+
+
+@extend_schema(
+    operation_id="me",
+    summary="Authenticated user profile",
+    description="Returns the authenticated user's data.",
+    responses={200: RegisterSerializer},
+    tags=["auth"],
+)
+@api_view(["GET"]) 
+@permission_classes([IsAuthenticated])
+def me(request):
+    return Response(RegisterSerializer(request.user).data)
