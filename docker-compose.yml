@@ -10,15 +10,29 @@ services:
     volumes:
       - dbdata:/var/lib/postgresql/data
 
+  redis:
+    image: redis:7-alpine
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+
   backend:
     build: ./backend
     env_file:
       - ./backend/.env
+    environment:
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+      POSTGRES_HOST: db
+      POSTGRES_DB: iotdb
+      POSTGRES_USER: iotuser
+      POSTGRES_PASSWORD: iotpass
     depends_on:
       - db
+      - redis
+    command: daphne -b 0.0.0.0 -p 8000 config.asgi:application
     ports:
       - "8000:8000"
-    # Para hot-reload de código durante o dev no Windows, você pode habilitar:
     # volumes:
     #   - ./backend:/app
 

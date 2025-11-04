@@ -74,5 +74,5 @@ if response.status_code == 200:
     print('   - Filtros e Paginação ✅')
     
 else:
-    print('❌ Erro no login')
+    print('❌ Login error')
     print(f'Response: {response.text}')
