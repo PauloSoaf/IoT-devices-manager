@@ -1,0 +1,11 @@
+<mat-card *ngIf="device" class="device-info">
+    <h2>{{ device.name }}</h2>
+    <div class="device-meta">
+        Status: {{ device.status }} | Category: {{ getCategoryLabel(device.category) }} | UUID: {{ device.public_id }}
+    </div>
+</mat-card>
+
+<mat-card>
+    <h3>Timeseries</h3>
+    <canvas baseChart [data]="chartData" [options]="chartOptions" [type]="'line'"></canvas>
+</mat-card>

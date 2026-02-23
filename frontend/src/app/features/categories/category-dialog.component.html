@@ -1,0 +1,17 @@
+<h2 mat-dialog-title>{{ data?.category ? 'Edit Category' : 'Create Category' }}</h2>
+<form [formGroup]="form" (ngSubmit)="save()" class="dialog-form">
+    <mat-form-field appearance="outline">
+        <mat-label>Name</mat-label>
+        <input matInput formControlName="name" />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+        <mat-label>Description</mat-label>
+        <input matInput formControlName="description" />
+    </mat-form-field>
+
+    <div class="dialog-actions">
+        <button mat-button type="button" (click)="cancel()">Cancel</button>
+        <button mat-raised-button color="primary" type="submit" [disabled]="form.invalid">Save</button>
+    </div>
+</form>

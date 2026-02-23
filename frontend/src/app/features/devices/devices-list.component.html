@@ -1,0 +1,81 @@
+<div class="toolbar">
+    <button mat-raised-button color="primary" class="create-btn" (click)="openCreateDialog()">
+        <span class="material-icons">add</span>
+        Create Device
+    </button>
+    <mat-form-field appearance="outline">
+        <mat-label>Search</mat-label>
+        <input matInput [(ngModel)]="searchQuery" (keyup)="refresh()" />
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+        <mat-label>Category</mat-label>
+        <mat-select [(ngModel)]="categoryFilter" (selectionChange)="refresh()">
+            <mat-option [value]="null">All</mat-option>
+            <mat-option *ngFor="let category of categories" [value]="category.id">
+                {{ category.name }}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+        <mat-label>Status</mat-label>
+        <mat-select [(ngModel)]="statusFilter" (selectionChange)="refresh()">
+            <mat-option [value]="null">All</mat-option>
+            <mat-option value="active">Active</mat-option>
+            <mat-option value="inactive">Inactive</mat-option>
+            <mat-option value="offline">Offline</mat-option>
+        </mat-select>
+    </mat-form-field>
+</div>
+
+<div class="table-container">
+    <table mat-table [dataSource]="devices">
+        <ng-container matColumnDef="name">
+            <th mat-header-cell *matHeaderCellDef>Name</th>
+            <td mat-cell *matCellDef="let device">
+                <span class="device-name">{{ device.name }}</span>
+            </td>
+        </ng-container>
+
+        <ng-container matColumnDef="category">
+            <th mat-header-cell *matHeaderCellDef>Category</th>
+            <td mat-cell *matCellDef="let device">{{ getCategoryName(device.category) }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="status">
+            <th mat-header-cell *matHeaderCellDef>Status</th>
+            <td mat-cell *matCellDef="let device">
+                <span class="status-badge" [ngClass]="'status-' + device.status">
+                    {{ device.status }}
+                </span>
+            </td>
+        </ng-container>
+
+        <ng-container matColumnDef="last_seen_at">
+            <th mat-header-cell *matHeaderCellDef>Last seen</th>
+            <td mat-cell *matCellDef="let device">{{ formatDate(device.last_seen_at) }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="actions">
+            <th mat-header-cell *matHeaderCellDef>Actions</th>
+            <td mat-cell *matCellDef="let device">
+                <div class="action-buttons">
+                    <a class="action-btn view" [routerLink]="['/devices', device.id]" title="View">
+                        <span class="material-icons">visibility</span>
+                    </a>
+                    <button class="action-btn activate" (click)="setStatus(device, 'active')" title="Activate">
+                        <span class="material-icons">play_arrow</span>
+                    </button>
+                    <button class="action-btn deactivate" (click)="setStatus(device, 'inactive')" title="Deactivate">
+                        <span class="material-icons">pause</span>
+                    </button>
+                    <button class="action-btn delete" (click)="deleteDevice(device.id)" title="Delete">
+                        <span class="material-icons">delete</span>
+                    </button>
+                </div>
+            </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+</div>

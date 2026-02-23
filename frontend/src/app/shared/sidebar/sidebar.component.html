@@ -1,0 +1,28 @@
+<aside class="sidebar">
+    <div class="sidebar-header">
+        <span class="material-icons sidebar-logo">memory</span>
+        <span class="sidebar-brand">IoT Manager</span>
+    </div>
+
+    <nav class="sidebar-nav">
+        <a class="nav-item" routerLink="/dashboard" routerLinkActive="active">
+            <span class="material-icons">dashboard</span>
+            <span>Dashboard</span>
+        </a>
+        <a class="nav-item" routerLink="/devices" routerLinkActive="active">
+            <span class="material-icons">devices_other</span>
+            <span>Devices</span>
+        </a>
+        <a class="nav-item" routerLink="/categories" routerLinkActive="active">
+            <span class="material-icons">category</span>
+            <span>Categories</span>
+        </a>
+    </nav>
+
+    <div class="sidebar-footer">
+        <button class="nav-item logout-btn" (click)="onLogout()">
+            <span class="material-icons">logout</span>
+            <span>Logout</span>
+        </button>
+    </div>
+</aside>

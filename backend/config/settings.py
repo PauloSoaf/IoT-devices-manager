@@ -12,9 +12,15 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 
 import os
 from pathlib import Path
+from dotenv import load_dotenv
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+
+# Load .env without overwriting existing env vars (Docker sets its own)
+_env_file = BASE_DIR / ".env"
+if _env_file.is_file():
+    load_dotenv(_env_file, override=False)
 
 
 # Quick-start development settings - unsuitable for production
@@ -166,15 +172,24 @@ SPECTACULAR_SETTINGS = {
     "VERSION": "0.1.0",
 }
 
-# Channels (Redis) configuration
-REDIS_HOST = os.getenv("REDIS_HOST", "redis")
+# Channels configuration
+# Use Redis when REDIS_HOST is set (Docker), otherwise InMemory (local dev)
+REDIS_HOST = os.getenv("REDIS_HOST")  # no default — absent means local dev
 REDIS_PORT = int(os.getenv("REDIS_PORT", "6379"))
-CHANNEL_LAYERS = {
-    "default": {
-        "BACKEND": "channels_redis.core.RedisChannelLayer",
-        "CONFIG": {"hosts": [(REDIS_HOST, REDIS_PORT)]},
+
+if REDIS_HOST:
+    CHANNEL_LAYERS = {
+        "default": {
+            "BACKEND": "channels_redis.core.RedisChannelLayer",
+            "CONFIG": {"hosts": [(REDIS_HOST, REDIS_PORT)]},
+        }
     }
-}
+else:
+    CHANNEL_LAYERS = {
+        "default": {
+            "BACKEND": "channels.layers.InMemoryChannelLayer",
+        }
+    }
 
 # CORS configuration
 CORS_ALLOW_ALL_ORIGINS = DEBUG

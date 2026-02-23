@@ -19,7 +19,7 @@ services:
   backend:
     build: ./backend
     env_file:
-      - ./backend/.env
+      - ./backend/.env.docker
     environment:
       REDIS_HOST: redis
       REDIS_PORT: 6379
@@ -37,20 +37,37 @@ services:
     #   - ./backend:/app
 
   frontend:
-    image: node:18-alpine
+    image: node:18
     working_dir: /app
     volumes:
       - ./frontend:/app
-      - frontend_node_modules:/app/node_modules
+      - _node_modules:/app/node_modules
     command: >
-      sh -c "npm ci && npm run start -- --host 0.0.0.0 --port 4200 --proxy-config proxy.conf.json"
+      sh -c "npm ci && npm run start -- --host 0.0.0.0 --port 4200 --proxy-config proxy.conf.docker.json"
     environment:
-      - CHOKIDAR_USEPOLLING=true
+      CHOKIDAR_USEPOLLING: "true"
     ports:
       - "4200:4200"
     depends_on:
       - backend
 
+  simulator:
+    build: ./backend
+    env_file:
+      - ./backend/.env.docker
+    environment:
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+      POSTGRES_HOST: db
+      POSTGRES_DB: iotdb
+      POSTGRES_USER: iotuser
+      POSTGRES_PASSWORD: iotpass
+    depends_on:
+      - backend
+    command: >
+      sh -c "sleep 10 && python manage.py simulate_data --interval 5"
+    restart: unless-stopped
+
 volumes:
   dbdata:
-  frontend_node_modules:
+  _node_modules:

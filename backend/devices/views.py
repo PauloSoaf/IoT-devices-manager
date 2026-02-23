@@ -228,7 +228,69 @@ class MeasurementViewSet(viewsets.ModelViewSet):
         }
         
         return Response(result)
-    
+
+    @extend_schema(
+        summary="Aggregate measurements grouped by metric",
+        parameters=[
+            OpenApiParameter(name="device", type=int, required=False, description="Device ID"),
+            OpenApiParameter(name="from", type=str, required=False, description="Start date (ISO 8601)"),
+            OpenApiParameter(name="to", type=str, required=False, description="End date (ISO 8601)"),
+        ],
+        responses={200: OpenApiTypes.OBJECT},
+    )
+    @action(detail=False, methods=['get'], url_path='aggregate_by_metric')
+    def aggregate_by_metric(self, request):
+        """Get aggregated measurement data grouped by metric type."""
+        device_id = request.query_params.get('device')
+        from_date = request.query_params.get('from')
+        to_date = request.query_params.get('to')
+
+        queryset = Measurement.objects.all()
+
+        if device_id:
+            try:
+                queryset = queryset.filter(device_id=int(device_id))
+            except ValueError:
+                return Response({'error': 'Invalid device ID'}, status=status.HTTP_400_BAD_REQUEST)
+
+        if from_date:
+            try:
+                from_dt = datetime.fromisoformat(from_date.replace('Z', '+00:00'))
+                queryset = queryset.filter(recorded_at__gte=from_dt)
+            except ValueError:
+                pass
+
+        if to_date:
+            try:
+                to_dt = datetime.fromisoformat(to_date.replace('Z', '+00:00'))
+                queryset = queryset.filter(recorded_at__lte=to_dt)
+            except ValueError:
+                pass
+
+        rows = (
+            queryset
+            .values('metric')
+            .annotate(
+                count=Count('id'),
+                min=Min('value'),
+                max=Max('value'),
+                avg=Avg('value'),
+            )
+            .order_by('metric')
+        )
+
+        result = [
+            {
+                'metric': r['metric'],
+                'count': r['count'],
+                'min': float(r['min']) if r['min'] is not None else None,
+                'max': float(r['max']) if r['max'] is not None else None,
+                'avg': round(float(r['avg']), 2) if r['avg'] is not None else None,
+            }
+            for r in rows
+        ]
+        return Response(result)
+
     @extend_schema(
         summary="Get time series data",
         parameters=[
