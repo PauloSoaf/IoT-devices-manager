@@ -5,7 +5,7 @@ Full-stack IoT device management with real-time data visualization.
 - **Backend:** Django + DRF, JWT, WebSockets (Channels), PostgreSQL, Redis
 - **Frontend:** Angular 16, SCSS, Material Icons
 
-📺 **Demo video**: `https://drive.google.com/drive/folders/1MBTKmqdfwXOpyTXHfSO1DwEDUalZTu37?usp=drive_link`
+📺 **Demo video**: `https://drive.google.com/drive/folders/1O-2FtOgS-pC8BWdz0__vqsRs_5jWUtPj?usp=drive_link` 
 
 ---
 
