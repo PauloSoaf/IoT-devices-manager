@@ -6,7 +6,7 @@ A full-stack application for managing IoT devices, collecting measurements in re
 - **Frontend:** Angular 16 (standalone), SCSS. 
 - **Orchestration:** Docker Compose (backend, db, redis, frontend). 
 
-📺 **Demo video**: `https://drive.google.com/drive/folders/1MBTKmqdfwXOpyTXHfSO1DwEDUalZTu37?usp=drive_link` 
+📺 **Demo video**: `https://drive.google.com/drive/folders/1O-2FtOgS-pC8BWdz0__vqsRs_5jWUtPj?usp=drive_link` 
 
 --- 
 
