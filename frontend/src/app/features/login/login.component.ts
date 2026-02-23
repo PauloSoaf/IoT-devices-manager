@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { MatCardModule } from '@angular/material/card';
@@ -10,40 +11,49 @@ import { AuthService } from '../../core/services/auth.service';
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [ReactiveFormsModule, MatCardModule, MatFormFieldModule, MatInputModule, MatButtonModule],
-  template: `
-  <div style="height:100vh;display:flex;align-items:center;justify-content:center;">
-    <mat-card style="width:360px;">
-      <h2>Login</h2>
-      <form [formGroup]="form" (ngSubmit)="onSubmit()">
-        <mat-form-field appearance="outline" class="full-width">
-          <mat-label>Username</mat-label>
-          <input matInput formControlName="username" />
-        </mat-form-field>
-        <mat-form-field appearance="outline" class="full-width">
-          <mat-label>Password</mat-label>
-          <input matInput type="password" formControlName="password" />
-        </mat-form-field>
-        <button mat-raised-button color="primary" class="full-width" type="submit" [disabled]="form.invalid || loading">Login</button>
-        <div *ngIf="error" style="color:#c00;margin-top:8px;">{{error}}</div>
-      </form>
-    </mat-card>
-  </div>
-  `,
-  styles: [`.full-width{width:100%;}`]
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    MatCardModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatButtonModule,
+  ],
+  templateUrl: './login.component.html',
+  styleUrls: ['./login.component.scss'],
 })
 export class LoginComponent {
-  form = this.fb.group({ username: ['', Validators.required], password: ['', Validators.required] });
-  loading = false; error: string | null = null;
-  constructor(private fb: FormBuilder, private auth: AuthService, private router: Router) {}
+  form = this.formBuilder.group({
+    username: ['', Validators.required],
+    password: ['', Validators.required],
+  });
 
-  onSubmit() {
+  isLoading = false;
+  errorMessage: string | null = null;
+
+  constructor(
+    private formBuilder: FormBuilder,
+    private authService: AuthService,
+    private router: Router,
+  ) { }
+
+  onSubmit(): void {
     if (this.form.invalid) return;
-    this.loading = true; this.error = null;
+
+    this.isLoading = true;
+    this.errorMessage = null;
+
     const { username, password } = this.form.value;
-    this.auth.login(username!, password!).subscribe({
-      next: () => { this.loading = false; this.router.navigate(['/dashboard']); },
-      error: (e) => { this.loading = false; this.error = 'Invalid credentials'; }
+
+    this.authService.login(username!, password!).subscribe({
+      next: () => {
+        this.isLoading = false;
+        this.router.navigate(['/dashboard']);
+      },
+      error: () => {
+        this.isLoading = false;
+        this.errorMessage = 'Invalid credentials';
+      },
     });
   }
 }

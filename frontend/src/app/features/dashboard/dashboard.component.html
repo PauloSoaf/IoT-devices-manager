@@ -1,0 +1,52 @@
+<div class="kpi-grid">
+    <mat-card class="kpi-card">
+        <span class="material-icons kpi-icon devices-icon">router</span>
+        <div class="kpi-content">
+            <span class="kpi-label">Total devices</span>
+            <span class="kpi-value">{{ totalDevices() }}</span>
+        </div>
+    </mat-card>
+    <mat-card class="kpi-card">
+        <span class="material-icons kpi-icon active-icon">check_circle</span>
+        <div class="kpi-content">
+            <span class="kpi-label">Active</span>
+            <span class="kpi-value">{{ activeDevices() }}</span>
+        </div>
+    </mat-card>
+    <mat-card class="kpi-card">
+        <span class="material-icons kpi-icon alerts-icon">warning</span>
+        <div class="kpi-content">
+            <span class="kpi-label">Unresolved alerts</span>
+            <span class="kpi-value">{{ unresolvedAlerts() }}</span>
+        </div>
+    </mat-card>
+    <mat-card class="kpi-card">
+        <span class="material-icons kpi-icon seen-icon">schedule</span>
+        <div class="kpi-content">
+            <span class="kpi-label">Latest seen</span>
+            <span class="kpi-value kpi-date">{{ latestSeen() }}</span>
+        </div>
+    </mat-card>
+</div>
+
+<mat-card class="chart-card">
+    <h3 class="card-title">Aggregated metrics (avg / min / max)</h3>
+    <canvas baseChart [data]="aggregateChartData" [options]="chartOptions" [type]="'bar'"></canvas>
+</mat-card>
+
+<mat-card class="chart-card">
+    <h3 class="card-title">Live mini chart (last 60 min)</h3>
+    <canvas baseChart [data]="liveChartData" [options]="chartOptions" [type]="'line'"></canvas>
+</mat-card>
+
+<mat-card class="alerts-card">
+    <h3 class="card-title">Recent alerts</h3>
+    <div *ngFor="let alert of recentAlerts" class="alert-row">
+        <div class="alert-info">
+            <span class="alert-type" [ngClass]="'alert-type-' + alert.type">{{ alert.type }}</span>
+            <span class="alert-message">{{ alert.message }}</span>
+        </div>
+        <button class="resolve-btn" (click)="resolveAlert(alert.id)">Resolve</button>
+    </div>
+    <div *ngIf="recentAlerts.length === 0" class="empty-state">No unresolved alerts</div>
+</mat-card>

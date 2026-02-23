@@ -1,0 +1,30 @@
+<div class="register-wrapper">
+    <mat-card class="register-card">
+        <h2 class="register-title">Register</h2>
+        <p class="register-subtitle">Create your account</p>
+        <form [formGroup]="form" (ngSubmit)="onSubmit()" class="register-form">
+            <mat-form-field appearance="outline" class="full-width">
+                <mat-label>Username</mat-label>
+                <input matInput formControlName="username" />
+            </mat-form-field>
+            <mat-form-field appearance="outline" class="full-width">
+                <mat-label>Email</mat-label>
+                <input matInput type="email" formControlName="email" />
+            </mat-form-field>
+            <mat-form-field appearance="outline" class="full-width">
+                <mat-label>Password</mat-label>
+                <input matInput type="password" formControlName="password" />
+            </mat-form-field>
+            <mat-form-field appearance="outline" class="full-width">
+                <mat-label>Confirm password</mat-label>
+                <input matInput type="password" formControlName="confirm" />
+            </mat-form-field>
+            <button mat-raised-button color="primary" class="full-width register-btn" type="submit"
+                [disabled]="form.invalid || isLoading">
+                Create account
+            </button>
+            <div *ngIf="successMessage" class="register-success">{{ successMessage }}</div>
+            <div *ngIf="errorMessage" class="register-error">{{ errorMessage }}</div>
+        </form>
+    </mat-card>
+</div>

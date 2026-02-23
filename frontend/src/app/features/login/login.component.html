@@ -1,0 +1,21 @@
+<div class="login-wrapper">
+    <mat-card class="login-card">
+        <h2 class="login-title">Login</h2>
+        <p class="login-subtitle">Sign in to manage your IoT devices</p>
+        <form [formGroup]="form" (ngSubmit)="onSubmit()" class="login-form">
+            <mat-form-field appearance="outline" class="full-width">
+                <mat-label>Username</mat-label>
+                <input matInput formControlName="username" />
+            </mat-form-field>
+            <mat-form-field appearance="outline" class="full-width">
+                <mat-label>Password</mat-label>
+                <input matInput type="password" formControlName="password" />
+            </mat-form-field>
+            <button mat-raised-button color="primary" class="full-width login-btn" type="submit"
+                [disabled]="form.invalid || isLoading">
+                {{ isLoading ? 'Signing in...' : 'Sign In' }}
+            </button>
+            <div *ngIf="errorMessage" class="login-error">{{ errorMessage }}</div>
+        </form>
+    </mat-card>
+</div>

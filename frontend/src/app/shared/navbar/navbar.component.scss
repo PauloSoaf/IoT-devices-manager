@@ -1,0 +1,258 @@
+$navbar-height: 64px;
+$navbar-bg: #ffffff;
+$accent: #3b82f6;
+
+.navbar {
+    height: $navbar-height;
+    min-height: $navbar-height;
+    background: $navbar-bg;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 32px;
+    border-bottom: 1px solid #e2e8f0;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+    position: relative;
+    z-index: 100;
+}
+
+.navbar-title {
+    font-size: 20px;
+    font-weight: 600;
+    color: #1e293b;
+    letter-spacing: -0.3px;
+}
+
+.navbar-right {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.notification-wrapper {
+    position: relative;
+}
+
+.notification-btn {
+    position: relative;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 8px;
+    border-radius: 10px;
+    transition: background 0.15s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    .material-icons {
+        font-size: 24px;
+        color: #64748b;
+        transition: color 0.15s ease;
+    }
+
+    &:hover {
+        background: #f1f5f9;
+
+        .material-icons {
+            color: #1e293b;
+        }
+    }
+}
+
+.notification-badge {
+    position: absolute;
+    top: 2px;
+    right: 2px;
+    min-width: 18px;
+    height: 18px;
+    border-radius: 9px;
+    background: #ef4444;
+    color: #ffffff;
+    font-size: 11px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 4px;
+    line-height: 1;
+}
+
+.dropdown {
+    position: absolute;
+    top: calc(100% + 8px);
+    right: 0;
+    width: 380px;
+    background: #ffffff;
+    border-radius: 14px;
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.12), 0 4px 12px rgba(0, 0, 0, 0.06);
+    z-index: 200;
+    overflow: hidden;
+    animation: slideDown 0.15s ease;
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-8px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.dropdown-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 20px;
+    border-bottom: 1px solid #f1f5f9;
+}
+
+.dropdown-title {
+    font-size: 15px;
+    font-weight: 700;
+    color: #1e293b;
+}
+
+.dropdown-count {
+    font-size: 12px;
+    font-weight: 600;
+    color: #64748b;
+    background: #f1f5f9;
+    padding: 3px 10px;
+    border-radius: 20px;
+}
+
+.dropdown-body {
+    max-height: 340px;
+    overflow-y: auto;
+}
+
+.dropdown-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 20px;
+    transition: background 0.12s ease;
+    gap: 12px;
+
+    &:hover {
+        background: #f8fafc;
+    }
+}
+
+.dropdown-item-left {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    flex: 1;
+    min-width: 0;
+}
+
+.alert-type-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    margin-top: 4px;
+    flex-shrink: 0;
+}
+
+.dot-critical {
+    background: #ef4444;
+}
+
+.dot-warning {
+    background: #f59e0b;
+}
+
+.dot-info {
+    background: #3b82f6;
+}
+
+.dropdown-item-content {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    min-width: 0;
+}
+
+.dropdown-item-type {
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+    color: #64748b;
+}
+
+.dropdown-item-message {
+    font-size: 13px;
+    color: #334155;
+    line-height: 1.4;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.dropdown-resolve-btn {
+    border: none;
+    background: #eff6ff;
+    color: $accent;
+    padding: 5px 12px;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.12s ease;
+    white-space: nowrap;
+    flex-shrink: 0;
+
+    &:hover {
+        background: $accent;
+        color: #ffffff;
+    }
+}
+
+.dropdown-empty {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    padding: 32px 20px;
+    color: #94a3b8;
+    font-size: 14px;
+
+    .empty-icon {
+        font-size: 32px;
+        color: #22c55e;
+    }
+}
+
+.navbar-avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, $accent, #8b5cf6);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: transform 0.15s ease;
+
+    &:hover {
+        transform: scale(1.05);
+    }
+
+    .material-icons {
+        color: #ffffff;
+        font-size: 20px;
+    }
+}
+
+.backdrop {
+    position: fixed;
+    inset: 0;
+    z-index: 99;
+}

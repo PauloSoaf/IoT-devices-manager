@@ -1,0 +1,40 @@
+<header class="navbar">
+    <h1 class="navbar-title">{{ title }}</h1>
+    <div class="navbar-right">
+        <div class="notification-wrapper">
+            <button class="notification-btn" (click)="toggleDropdown()">
+                <span class="material-icons">notifications_none</span>
+                <span *ngIf="unresolvedCount > 0" class="notification-badge">{{ unresolvedCount }}</span>
+            </button>
+            <div class="dropdown" *ngIf="isDropdownOpen">
+                <div class="dropdown-header">
+                    <span class="dropdown-title">Alerts</span>
+                    <span class="dropdown-count">{{ unresolvedCount }} unresolved</span>
+                </div>
+                <div class="dropdown-body">
+                    <div *ngFor="let alert of alerts" class="dropdown-item">
+                        <div class="dropdown-item-left">
+                            <span class="alert-type-dot" [ngClass]="'dot-' + alert.type"></span>
+                            <div class="dropdown-item-content">
+                                <span class="dropdown-item-type">{{ alert.type }}</span>
+                                <span class="dropdown-item-message">{{ alert.message }}</span>
+                            </div>
+                        </div>
+                        <button class="dropdown-resolve-btn" (click)="resolveAlert(alert.id); $event.stopPropagation()">
+                            Resolve
+                        </button>
+                    </div>
+                    <div *ngIf="alerts.length === 0" class="dropdown-empty">
+                        <span class="material-icons empty-icon">check_circle</span>
+                        <span>No unresolved alerts</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="navbar-avatar">
+            <span class="material-icons">person</span>
+        </div>
+    </div>
+</header>
+
+<div class="backdrop" *ngIf="isDropdownOpen" (click)="closeDropdown()"></div>

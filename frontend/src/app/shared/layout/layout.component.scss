@@ -1,0 +1,27 @@
+$sidebar-width: 260px;
+$content-bg: #f1f5f9;
+
+.app-shell {
+    display: flex;
+    height: 100vh;
+    overflow: hidden;
+}
+
+app-sidebar {
+    width: $sidebar-width;
+    min-width: $sidebar-width;
+}
+
+.main-area {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.content {
+    flex: 1;
+    overflow-y: auto;
+    padding: 24px 32px;
+    background: $content-bg;
+}
