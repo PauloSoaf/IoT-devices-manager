@@ -30,7 +30,7 @@
                     <button class="action-btn edit" (click)="editCategory(category)" title="Edit">
                         <span class="material-icons">edit</span>
                     </button>
-                    <button class="action-btn delete" (click)="deleteCategory(category.id)" title="Delete">
+                    <button class="action-btn delete" (click)="confirmDelete(category)" title="Delete">
                         <span class="material-icons">delete</span>
                     </button>
                 </div>
@@ -40,4 +40,8 @@
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
         <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
     </table>
+
+    <mat-paginator [length]="totalCount" [pageSize]="pageSize" [pageIndex]="currentPage"
+        [pageSizeOptions]="[2, 5, 10, 20, 50]" (page)="onPageChange($event)" showFirstLastButtons>
+    </mat-paginator>
 </div>

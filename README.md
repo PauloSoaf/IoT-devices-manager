@@ -29,7 +29,7 @@ The `simulator` service starts automatically and generates measurements every 5s
 ## Local (without Docker)
 
 > Uses SQLite and InMemoryChannelLayer — no Postgres/Redis needed.
-> Real-time simulator (`simulate_data`) only works via Docker (requires Redis for cross-process WebSocket broadcast).
+> Real-time simulator (`simulate_data`) only works via Docker.
 
 **Backend:**
 
