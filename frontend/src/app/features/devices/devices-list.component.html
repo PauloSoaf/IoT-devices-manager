@@ -62,13 +62,16 @@
                     <a class="action-btn view" [routerLink]="['/devices', device.id]" title="View">
                         <span class="material-icons">visibility</span>
                     </a>
+                    <button class="action-btn edit" (click)="openEditDialog(device)" title="Edit">
+                        <span class="material-icons">edit</span>
+                    </button>
                     <button class="action-btn activate" (click)="setStatus(device, 'active')" title="Activate">
                         <span class="material-icons">play_arrow</span>
                     </button>
                     <button class="action-btn deactivate" (click)="setStatus(device, 'inactive')" title="Deactivate">
                         <span class="material-icons">pause</span>
                     </button>
-                    <button class="action-btn delete" (click)="deleteDevice(device.id)" title="Delete">
+                    <button class="action-btn delete" (click)="confirmDelete(device)" title="Delete">
                         <span class="material-icons">delete</span>
                     </button>
                 </div>
@@ -78,4 +81,8 @@
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
         <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
     </table>
+
+    <mat-paginator [length]="totalCount" [pageSize]="pageSize" [pageIndex]="currentPage"
+        [pageSizeOptions]="[2, 5, 10, 20, 50]" (page)="onPageChange($event)" showFirstLastButtons>
+    </mat-paginator>
 </div>

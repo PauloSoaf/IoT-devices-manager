@@ -131,6 +131,16 @@
     }
 }
 
+.action-btn.edit {
+    &:hover {
+        background: #f0fdf4;
+
+        .material-icons {
+            color: #16a34a;
+        }
+    }
+}
+
 .action-btn.activate {
     &:hover {
         background: #dcfce7;
