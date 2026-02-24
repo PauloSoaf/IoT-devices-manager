@@ -9,7 +9,7 @@ Full-stack IoT device management with real-time data visualization.
 
 ---
 
-## Docker (recommended)
+## Run project with Docker
 
 ```bash
 docker compose up -d --build
@@ -26,7 +26,7 @@ The `simulator` service starts automatically and generates measurements every 5s
 
 ---
 
-## Local (without Docker)
+## Run project without Docker
 
 > Uses SQLite and InMemoryChannelLayer — no Postgres/Redis needed.
 > Real-time simulator (`simulate_data`) only works via Docker.
@@ -55,7 +55,7 @@ Frontend runs at http://localhost:4200 and proxies `/api` to `localhost:8000`.
 
 ---
 
-## Login
+## Login TestData
 
 | Field    | Value         |
 |----------|---------------|
